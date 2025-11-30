@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React SPA Example</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      background-color: #333;
+      display: flex;
+      padding: 10px 20px;
+    }
+    .nav-link {
+      color: white;
+      margin-right: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .nav-link.active {
+      color: #ffd700;
+    }
+    .content {
+      padding: 40px;
+      min-height: 200px;
+    }
+    .home {
+      background-color: #f0f8ff;
+    }
+    .about {
+      background-color: #ffe4e1;
+    }
+    .contact {
+      background-color: #e6ffe6;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const { useState } = React;
+
+    function App() {
+      const [activePage, setActivePage] = useState("Home");
+
+      const renderContent = () => {
+        switch(activePage) {
+          case "Home":
+            return <div className="content home"><h2>Welcome to Home</h2><p>This is the Home page of our SPA.</p></div>;
+          case "About":
+            return <div className="content about"><h2>About Us</h2><p>Learn more about us on this page.</p></div>;
+          case "Contact":
+            return <div className="content contact"><h2>Contact Us</h2><p>Get in touch with us through this page.</p></div>;
+          default:
+            return null;
+        }
+      };
+
+      return (
+        <div>
+          <nav className="navbar">
+            <span
+              className={`nav-link ${activePage === "Home" ? "active" : ""}`}
+              onClick={() => setActivePage("Home")}
+            >
+              Home
+            </span>
+            <span
+              className={`nav-link ${activePage === "About" ? "active" : ""}`}
+              onClick={() => setActivePage("About")}
+            >
+              About
+            </span>
+            <span
+              className={`nav-link ${activePage === "Contact" ? "active" : ""}`}
+              onClick={() => setActivePage("Contact")}
+            >
+              Contact
+            </span>
+          </nav>
+
+          {renderContent()}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
