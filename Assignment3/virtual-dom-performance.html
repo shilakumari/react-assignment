@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual DOM vs Actual DOM</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root">Hello From DOM</div>
+<script type="text/babel">
+
+    let actualDOMUpdate = 0;
+
+    const { useState } = React;
+
+    function App() {
+
+        const [reactTitle, setReactTitle] = useState("React Title");
+        const [count, setCount] = useState(0);
+
+        // Vanilla Button
+        const handleDOMChange = () => {
+            const newTitle = "Vanilla JS ";
+            document.title = newTitle;
+            actualDOMUpdate++;
+            document.getElementById("vanillaCounterText").innerText = actualDOMUpdate;
+            setReactTitle(newTitle);
+        };
+
+        // React Button
+        const handleReactChange = () => {
+            const newTitle = "React";
+            setReactTitle(newTitle);
+            setCount(prev => prev + 1);
+            document.title = newTitle;
+        };
+
+        return (
+            <div>
+                <h2>Current Title: {reactTitle}</h2>
+
+                <button onClick={handleDOMChange}>Change Title (Vanilla JS)</button>
+                <button onClick={handleReactChange} style={{ marginLeft: "10px" }}>Change Title (React)</button>
+                <hr/>
+                <h3>Update Counter</h3>
+                <p>
+                    <b>Vanilla JS Counter: <span id="vanillaCounterText">0</span></b>
+                </p>
+
+                <p>
+                    <b>React Counter: {count}</b>
+                </p>
+            </div>
+        );
+    }
+
+    let root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App/>);
+</script>
+</body>
+</html>
