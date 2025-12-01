@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Components</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">Hello From DOM!</div>
+
+    <script type="text/babel">
+    
+        function Card({ title, children }) {
+            const cardStyle = {
+                border: "1px solid red",
+                borderRadius: "8px",
+                padding: "16px",
+                margin: "12px 0",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+            };
+
+            const titleStyle = {
+                fontSize: "18px",
+                fontWeight: "600",
+                marginBottom: "10px"
+            };
+
+            return (
+                <div style={cardStyle}>
+                    <div style={titleStyle}>{title}</div>
+                    <div>{children}</div>
+                </div>
+            );
+        }
+
+        function ParentComponent() {
+            return (
+                <div>
+                    <Card title="Card One">
+                        <p>This is the content of the first card.</p>
+                    </Card>
+
+                    <Card title="Card Two">
+                        <ul>
+                            <li>Item A</li>
+                            <li>Item B</li>
+                            <li>Item C</li>
+                        </ul>
+                    </Card>
+
+                    <Card title="Card Three">
+                        <strong>This card contains bold text and a button:</strong>
+                        <br />
+                        <button style={{ marginTop: "8px" }}>Click Me</button>
+                    </Card>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<ParentComponent />);
+
+    </script>
+</body>
+</html>
