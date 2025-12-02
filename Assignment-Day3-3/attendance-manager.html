@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Manager</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">Hello From DOM</div>
+</body>
+</html>
+<script type="text/babel">
+    const {useState} = React;
+    function AttendanceManager() {
+        const [students, setStudents] = useState([
+            {id:1, name:"Alice", present:"true"},
+            {id:2, name:"Bob", present:"true"},
+            {id:3, name:"Charlie", present:"true"},
+            {id:4, name:"Moti", present:"true"},
+            {id:5, name:"Chatur", present:"true"}
+        ]);
+
+        const toggleAttendance = (id) => {
+            setStudents((prevStudents)=>
+                prevStudents.map((student)=>
+                    student.id===id ? {...student, present:!student.present} : student  
+                )
+            );
+        };
+
+        const presentCount = students.filter((s)=>s.present).length;
+
+        return (
+            <div style={{maxWidth:"250px", margin:"20px auto"}}>
+                <h2>Attendance Manager</h2>
+                <ul>
+                    {students.map((student)=>(
+                        <li key={student.id} style={{marginButton:"10px"}}>
+                            <strong>{student.name}</strong> -{" "}
+                            {student.present?"Present":"Absent"}
+                            <button onClick={()=>toggleAttendance(student.id)} style={{marginLeft:"10px"}}>Toggle</button>
+                        </li>
+                    ))}
+                </ul>
+
+                <h3>Total Present: {presentCount}</h3>
+            </div>
+        );
+    }
+    let root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<AttendanceManager/>)
+</script>
