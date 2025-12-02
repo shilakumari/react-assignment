@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Hook</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">Hello From DOM</div>
+</body>
+</html>
+<script type="text/babel">
+    const {useState} = React;
+
+    function App(){
+        const [count, setCount] = useState(0);
+
+        function increamentCount(){
+            //setCount(count + 1);
+            setCount((prev)=>(prev<10 ? prev+1 : prev));
+        }
+
+        function decreamentCount(){
+            setCount((prev)=>(prev>0 ? prev-1 : prev));
+        }
+
+        function reset(){
+            setCount(0);
+        }
+
+        return (
+            <>
+                <div>
+                    <h1>{count}</h1>
+                    {count === 10 && <h2 style={{ color: "green" }}>Goal Reached!</h2>}
+                    <button onClick={increamentCount}>Increament</button>
+                    <button onClick={decreamentCount} style={{marginLeft:"10px"}}>Decreament</button>
+                    <button onClick={reset} style={{marginLeft:"10px"}}>Reset</button>
+                </div>
+            </>
+        );
+    }
+
+    let root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App/>)
+</script>
