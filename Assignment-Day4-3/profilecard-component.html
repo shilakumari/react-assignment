@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Hook</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">Hello From DOM</div>
+</body>
+</html>
+<script type="text/babel">
+    const {useState} = React;
+
+    function ProfileCard({
+        name="Moti",
+        age=25,
+        bio=
+        "I am a dedicated and creative individual who enjoys learning new skills, exploring ideas, and working to improve myself every day. My passion for growth pushes me to take on new challenges and continuously expand my knowledge."}){
+
+        const truncatedBio = bio.length>100 ? bio.slice(0, 100)+"... Read More" : bio;
+
+        return (
+            <>
+                <div style={{maxWidth:"250px", margin:"20px auto"}}>
+                    <h1 style={{color:"blue"}}>Profile Card</h1>
+                    <h2>Name: {name}</h2>
+                    {age!==null && (<p>Age:{age}</p>)}
+                    <p>Bio: {truncatedBio}</p>
+                </div>
+            </>
+        );
+    }
+
+    let root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<ProfileCard />)
+</script>
