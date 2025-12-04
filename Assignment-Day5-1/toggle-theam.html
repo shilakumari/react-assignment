@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Hook</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">Hello From DOM</div>
+</body>
+</html>
+<script type="text/babel">
+    const {useState} = React;
+
+    function ThemedBox({ theme, text }) {
+        const styles = {box: {
+            padding: "20px",
+            margin: "10px 0",
+            borderRadius: "8px",
+            transition: "0.3s",
+            background: theme === "light" ? "white" : "#333",
+            color: theme === "light" ? "black" : "white",
+            border: theme === "light" ? "1px solid #ccc" : "1px solid #555"}
+        };
+    }
+    
+    function ThemeApp() {
+        const [theme, setTheme] = useState("light");
+
+        const toggleTheme = () => {
+            setTheme(prev => (prev === "light" ? "dark" : "light"));
+        };
+
+        return (
+            <div
+                style={{minHeight: "100vh",padding: "20px",
+                    transition: "0.3s",
+                    background: theme === "light" ? "#f2f2f2" : "#1b1b1b",
+                    color: theme === "light" ? "#000" : "#fff"
+                }}>
+                <h1>Theme Toggle App</h1>
+                <button onClick={toggleTheme}>
+                    Switch to {theme === "light" ? "Dark" : "Light"} Theme
+                </button>
+
+                <div style={{ marginTop: "20px" }}>
+                    <ThemedBox theme={theme} text="Box 1" />
+                    <ThemedBox theme={theme} text="Box 2" />
+                    <ThemedBox theme={theme} text="Box 3" />
+                </div>
+            </div>
+        );
+    }
+
+    let root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<ThemeApp />)
+</script>
