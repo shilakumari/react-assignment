@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile</title>
+
+ 
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+</head>
+<body>
+
+  <div id="root">Hello From DOM</div>
+
+  <script type="text/babel">
+    const { useEffect, useState } = React;
+
+    function UserCard({ name, email, city }) {
+      return (
+        <div className="card">
+          <h2>{name}</h2>
+          <p><strong>Email:</strong> {email}</p>
+          <p><strong>City:</strong> {city}</p>
+        </div>
+      );
+    }
+
+
+    function UserList() {
+      const [users, setUsers] = useState([]);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+
+      useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const res = await fetch("https://jsonplaceholder.typicode.com/users");
+            if (!res.ok) throw new Error("Failed to fetch users");
+
+            const data = await res.json();
+            setUsers(data);
+          } catch (err) {
+            setError(err.message);
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        fetchUsers();
+      }, []);
+
+      if (loading) return <p>Loading users...</p>;
+      if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
+
+      return (
+        <div>
+          <h1>User Profiles</h1>
+
+          {users.map((u) => (
+            <UserCard
+              key={u.id}
+              name={u.name}
+              email={u.email}
+              city={u.address.city}
+            />
+          ))}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<UserList />);
+  </script>
+
+</body>
+</html>
