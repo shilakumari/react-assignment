@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quotes Generator</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #b9cace;
+    }
+
+    .quote-box {
+      padding: 20px;
+      background: #2e0f75;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="root">Hello From DOM</div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function QuotesGenerator() {
+      const [quote, setQuote] = useState(null);
+      const [loading, setLoading] = useState(false);
+
+      const fetchQuote = async () => {
+        try {
+          setLoading(true);
+          const res = await fetch("https://api.quotable.io/random");
+          const data = await res.json();
+          setQuote(data);
+        } catch (err) {
+          console.error("Error fetching quote:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      useEffect(() => {
+        fetchQuote();
+        const interval = setInterval(fetchQuote, 30000);
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <div>
+          <h1>Daily Quote Viewer</h1>
+
+          {loading && <p>Loading...</p>}
+
+          {!loading && quote && (
+            <div className="quote-box">
+              <p style={{ fontSize: 20 }}>"{quote.content}"</p>
+              <p style={{ fontWeight: "bold", marginTop: 10 }}>— {quote.author}</p>
+            </div>
+          )}
+
+          <button onClick={fetchQuote}>Get New Quote</button>
+        </div>
+      );
+    }
+
+    let root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<QuotesGenerator />)
+  </script>
+
+</body>
+</html>
